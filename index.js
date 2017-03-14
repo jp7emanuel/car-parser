@@ -1,39 +1,23 @@
-import axios from 'axios';
-import xml2js from 'xml2js';
-import fs from 'fs';
-import path from 'path';
-import config from './config';
+import express from 'express';
+import http from 'http';
+import bodyParser from 'body-parser';
+import db from './utils/database';
+import cors from 'cors';
+import {
+  generateJson
+} from './routes';
 
-function tagNameProcessors(name) {
-  let attrFromConfig = config.carAttrs.find(attr => attr.value === name);
-  if (attrFromConfig) {
-    return attrFromConfig.key;
-  }
+let app = express();
+let router = express.Router();
+router.all('*', cors());
 
-  return name;
-}
+app.server = http.createServer(app);
+app.use(bodyParser.json());
 
-let parser = new xml2js.Parser({
-  explicitArray: false,
-  explicitRoot: false,
-  explicitCharkey: true,
-  emptyTag: null,
-  charkey: 'value',
-  trim: true,
-  normalize: true,
-  mergeAttrs: true,
-  tagNameProcessors: [tagNameProcessors]
+router.route('/generate-json').get(generateJson);
+
+app.use(router);
+
+app.server.listen(process.env.PORT || 8080, function () {
+  console.log('Listening on port %d!', app.server.address().port);
 });
-
-function xmlToJsonOutput(url) {
-  return axios.get(url)
-  .then(response => {
-    let filePath = path.join(__dirname, 'cars.json');
-
-    return parser.parseString(response.data, function (err, result) {
-        return fs.writeFileSync(filePath, JSON.stringify(result, null, 2));
-    });
-  });
-}
-
-xmlToJsonOutput(config.url);
