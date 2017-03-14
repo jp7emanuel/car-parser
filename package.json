@@ -1,0 +1,21 @@
+{
+  "name": "car-parser",
+  "version": "1.0.0",
+  "description": "XML to JSON cars parser",
+  "main": "index.js",
+  "scripts": {
+    "parse": "babel-node index.js --presets es2015,stage-0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
+    "xml2js": "^0.4.17"
+  }
+}
