@@ -2,6 +2,7 @@ export default {
   url: 'http://xml.dsautoestoque.com/?l=00434116001291&v=2',
   carAttrs: [
     // VEICULOS
+    { key: 'cars', value: 'veiculo' },
     { key: 'type', value: 'tipoveiculo' },
     { key: 'zerokm', value: 'zerokm' },
     { key: 'plate', value: 'placa' },
@@ -27,6 +28,8 @@ export default {
     { key: 'photo360', value: 'foto360' },
     { key: 'values', value: 'opcional' },
     { key: 'values', value: 'foto' },
+    { key: 'values', value: 'acessorio' },
+    { key: 'values', value: 'complemento' },
 
     // LOJAS
     { key: 'store', value: 'loja' },
@@ -34,7 +37,6 @@ export default {
     { key: 'address', value: 'endereco' },
     { key: 'street', value: 'logradouro' },
     { key: 'number', value: 'numero' },
-    { key: 'complement', value: 'complemento' },
     { key: 'district', value: 'bairro' },
     { key: 'city', value: 'cidade' },
     { key: 'state', value: 'uf' },

@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 import db from './utils/database';
 import cors from 'cors';
 import {
-  generateJson
+  generateJsonRoute,
+  importToDbRoute
 } from './routes';
 
 let app = express();
@@ -14,7 +15,8 @@ router.all('*', cors());
 app.server = http.createServer(app);
 app.use(bodyParser.json());
 
-router.route('/generate-json').get(generateJson);
+router.route('/generate-json').get(generateJsonRoute);
+router.route('/import').get(importToDbRoute);
 
 app.use(router);
 
