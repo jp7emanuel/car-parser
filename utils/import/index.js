@@ -61,19 +61,19 @@ const savedItems = {
 */
 function filterValue(obj, prop) {
   if (obj[prop]) {
-    if (obj[prop].value) {
-      return { [prop]: obj[prop].value };
-    }
-
-    if (obj[prop].values) {
+    if (_.isArray(obj[prop])) {
       if (prop === 'photos') {
-        return obj[prop].values.map(item => {
-          return { url: item.value }
+        return obj[prop].map(item => {
+          return { url: item }
         });
       }
 
-      return obj[prop].values.map(list => list.value);
+      return obj[prop].map(item => {
+        return { [prop]: item };
+      });
     }
+
+    return { [prop]: obj[prop] };
   }
 
   return { [prop]: null };
@@ -94,8 +94,8 @@ function getPersistedObject(Model, propName, obj) {
 
 function persistObject(Model, name, obj) {
   let item = {
-    name: obj.value,
-    external_id: obj.external_id
+    name: obj.$t,
+    external_id: obj.id
   };
 
   let savedItem = getPersistedObject(Model, name, item);
@@ -116,11 +116,11 @@ function getAssociatedModel(name, obj, type = 'single') {
     return persistObject(singleSubDocuments[name], name, obj[name]);
   }
 
-  if (!obj[name] || !obj[name].values) {
+  if (!obj[name]) {
     return null;
   }
 
-  return _(obj[name].values)
+  return _(obj[name])
     .map(item => {
       if (item) {
         return persistObject(multipleSubDocuments[name], name, item);
@@ -149,13 +149,15 @@ function getCarObject(car) {
 
   const newCar = new carModel({
     version,
+    make,
+    model,
     transmission,
     color,
     fuel,
     packages,
     features,
     acessories,
-    photos
+    photos,
   });
 
   return Object.assign(newCar, ...carProps);
@@ -166,7 +168,7 @@ export default function importCollections() {
     return false;
   }
 
-  return carsJson.cars.map((car) => {
+  return carsJson.map((car) => {
     return getCarObject(car);
   });
 }
