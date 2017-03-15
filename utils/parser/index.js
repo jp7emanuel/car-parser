@@ -13,6 +13,14 @@ function tagNameProcessors(name) {
   return name;
 }
 
+function attrNameProcessors(name) {
+  if (name === 'id') {
+    return 'external_id';
+  }
+
+  return name;
+}
+
 let parser = new xml2js.Parser({
   explicitArray: false,
   explicitRoot: false,
@@ -22,13 +30,14 @@ let parser = new xml2js.Parser({
   trim: true,
   normalize: true,
   mergeAttrs: true,
-  tagNameProcessors: [tagNameProcessors]
+  tagNameProcessors: [tagNameProcessors],
+  attrNameProcessors: [attrNameProcessors]
 });
 
 function parseToJsonFile() {
   return axios.get(config.url)
   .then(response => {
-    let filePath = path.join(__dirname, '../../generated', 'cars.json');
+    let filePath = path.join(__dirname, '../../generated', 'parsed_xml.json');
     parser.parseString(response.data, function (err, result) {
         fs.writeFileSync(filePath, JSON.stringify(result, null, 2));
     });

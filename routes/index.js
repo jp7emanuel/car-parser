@@ -1,4 +1,5 @@
 import parseToJsonFile from '../utils/parser';
+import importCollections from '../utils/import';
 
 export const generateJsonRoute = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -16,7 +17,10 @@ export const importToDbRoute = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
-  // should run a function that import files and return 200 if ok
-
-  return res.status(200).json({ message: 'collections imported to database!' });
+  return Promise.resolve(importCollections())
+    .then(response => {
+      return res.status(200).json(response);
+    }, function(err) {
+      return res.status(500);
+    });
 }

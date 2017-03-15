@@ -1,6 +1,8 @@
 export default {
   url: 'http://xml.dsautoestoque.com/?l=00434116001291&v=2',
   carAttrs: [
+    { key: 'external_id', value: 'id' },
+
     // VEICULOS
     { key: 'cars', value: 'veiculo' },
     { key: 'type', value: 'tipoveiculo' },
@@ -9,14 +11,14 @@ export default {
     { key: 'make', value: 'marca' },
     { key: 'model', value: 'modelo' },
     { key: 'version', value: 'versao' },
-    { key: 'motor_type', value: 'tipomotor' },
+    { key: 'motor', value: 'tipomotor' },
     { key: 'manufacturing_year', value: 'anofabricacao' },
     { key: 'model_year', value: 'anomodelo' },
-    { key: 'transmission_type', value: 'cambio' },
+    { key: 'transmission', value: 'cambio' },
     { key: 'km', value: 'km' },
     { key: 'doors', value: 'portas' },
     { key: 'color', value: 'cor' },
-    { key: 'fueltype', value: 'combustivel' },
+    { key: 'fuel', value: 'combustivel' },
     { key: 'price', value: 'preco' },
     { key: 'extra', value: 'observacao' },
     { key: 'created_at', value: 'cadastro' },
