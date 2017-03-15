@@ -16,7 +16,7 @@ export default {
     { key: 'km', value: 'km' },
     { key: 'doors', value: 'portas' },
     { key: 'color', value: 'cor' },
-    { key: 'fuel_type', value: 'combustivel' },
+    { key: 'fueltype', value: 'combustivel' },
     { key: 'price', value: 'preco' },
     { key: 'extra', value: 'observacao' },
     { key: 'created_at', value: 'cadastro' },

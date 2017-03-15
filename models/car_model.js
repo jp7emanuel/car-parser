@@ -1,48 +1,47 @@
 import mongoose from 'mongoose';
+import photoSchema from './photo_schema';
 
-const storeSchema = new mongoose.Schema({
+const carSchema = new mongoose.Schema({
   external_id: Number,
   zerokm: Boolean,
   plate: String,
-  make: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'make',
-  }
-  model: String,
   version: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'version',
-  }
+  },
   manufacturing_year: Number,
   model_year: Number,
-  transmission_type:
+  transmission: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'transmission'
+  },
   km: Number,
   doors: Number,
   color: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'color',
-  }
-  fuel_type: {
+  },
+  fuel: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'fuel_type',
-  }
+    ref: 'fuel',
+  },
   price: Number,
   extra: String,
   created_at: Date,
   updated_at: Date,
-  packages: {
+  packages: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'package',
-  }
-  features: {
+  }],
+  features: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'feature',
-  }
-  acessories: {
+  }],
+  acessories: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'acessory',
-  }
+  }],
   photos: [photoSchema]
 });
 
-export default mongoose.model('Store', storeSchema);
+export default mongoose.model('car', carSchema);
