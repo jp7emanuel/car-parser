@@ -39,42 +39,52 @@ function persistToDatabase(Model, collection, name) {
     console.log(`${name} removed!`);
   })
   .then(response => {
-      Model.insertMany(collection, function (err, docs) {
-      if (err) {
+    Model.insertMany(collection)
+      .then(function(docs) {
+        console.log(`${name} inserted successfully!`);
+      })
+      .catch(err => {
         console.log(`Error! Could not insert ${name}!`);
-        return err;
-      }
-
-      console.log(`${name} inserted successfully!`);
-    });
+      });
   });
 }
 
 export default function handleImport() {
   return parseToJsonFile().then(parseResponse => {
       if (!parseResponse) {
-        return res.status(400).json({ error: 'XML has wrong structure!' })
+        return {
+          code: 400,
+          message: "XML has wrong structure!"
+        }
       }
 
-      console.log(parseResponse);
-
       return collectionsToBeImported().then(importResponse => {
-          console.log('import', importResponse);
           if (!importResponse) {
-            return res.status(400).send({ error: 'No cars found to be imported!' });
+            return {
+              code: 400,
+              message: "No cars found to be imported!"
+            }
           }
-
 
           _.map(importResponse, (collection, name) => {
             persistToDatabase(documents[name], collection, name);
           });
 
-          return res.status(200).json({ message: 'Database imported!' });
+          return {
+            code: 200,
+            message: "Database imported!"
+          }
         }, function(err) {
-          return res.status(500).json({ message: 'Import Collection Promise rejected!' });
+          return {
+            code: 500,
+            message: "Import Collection Promise rejected!"
+          }
         });
 
     }, function(err) {
-      return res.status(500).json({ message: 'Generate JSON from XML Promise rejected!' });
+      return {
+        code: 500,
+        message: "Generate JSON from XML Promise rejected!"
+      }
     });
 }
