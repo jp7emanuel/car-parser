@@ -2,13 +2,14 @@ import mongoose from 'mongoose';
 import addressSchema from '../schemas/address_schema';
 
 const storeSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    text: true
+  },
   cnpj: String,
-  address: [addressSchema],
-  contact: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'contact',
-  }
+  address: [addressSchema]
 });
+
+storeSchema.path('name').index({text : true});
 
 export default mongoose.model('store', storeSchema);

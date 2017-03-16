@@ -60,4 +60,10 @@ const carSchema = new mongoose.Schema({
   }],
 });
 
+carSchema.path('manufacturing_year').index(true);
+carSchema.path('model_year').index(true);
+carSchema.path('km').index(true);
+carSchema.path('doors').index(true);
+carSchema.path('price').index(true);
+
 export default mongoose.model('car', carSchema);
