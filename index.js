@@ -3,10 +3,7 @@ import http from 'http';
 import bodyParser from 'body-parser';
 import db from './utils/database';
 import cors from 'cors';
-import {
-  generateJsonRoute,
-  importToDbRoute
-} from './routes';
+import { importAndPersistCollections } from './routes';
 
 let app = express();
 let router = express.Router();
@@ -15,8 +12,7 @@ router.all('*', cors());
 app.server = http.createServer(app);
 app.use(bodyParser.json());
 
-router.route('/generate-json').get(generateJsonRoute);
-router.route('/import').get(importToDbRoute);
+router.route('/import').get(importAndPersistCollections);
 
 app.use(router);
 

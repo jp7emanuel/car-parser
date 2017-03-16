@@ -4,7 +4,7 @@
   "description": "XML to JSON cars parser",
   "main": "index.js",
   "scripts": {
-    "parse": "babel-node ./utils/parser/index.js --presets es2015,stage-0",
+    "import": "babel-node ./utils/import/index.js --presets es2015,stage-0",
     "server": "nodemon index.js --exec babel-node --presets es2015,stage-0"
   },
   "author": "",
