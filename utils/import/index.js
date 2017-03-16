@@ -12,155 +12,147 @@ import fuelModel from '../../models/fuel_model';
 import packageModel from '../../models/package_model';
 import featureModel from '../../models/feature_model';
 import acessoryModel from '../../models/acessory_model';
+import contactModel from '../../models/contact_model';
+import storeModel from '../../models/store_model';
 
-const singleSubDocuments = {
+const subDocuments = {
   version: versionModel,
   model: modelModel,
   make: makeModel,
   transmission: transmissionModel,
   color: colorModel,
-  fuel: fuelModel
-}
-
-const multipleSubDocuments = {
+  fuel: fuelModel,
+  contact: contactModel,
+  store: storeModel,
   packages: packageModel,
   features: featureModel,
   acessories: acessoryModel
 }
 
-const directProps = [
-  'external_id',
-  'zerokm',
-  'plate',
-  'manufacturing_year',
-  'model_year',
-  'km',
-  'doors',
-  'price',
-  'extra',
-  'created_at',
-  'updated_at'
-]
-
-const savedItems = {
+const savedCollections = {
   version: [],
   model: [],
   make: [],
   transmission: [],
   color: [],
   fuel: [],
+  contact: [],
+  store: [],
   packages: [],
   features: [],
-  acessories: []
+  acessories: [],
 };
 
+function getObject(propName, obj, compareToProp = null) {
+  let savedObject;
 
-/**
-* Objects are in format { prop: { value: '' } }
-* we have to remove the prop "value"
-*/
-function filterValue(obj, prop) {
-  if (obj[prop]) {
-    if (_.isArray(obj[prop])) {
-      if (prop === 'photos') {
-        return obj[prop].map(item => {
-          return { url: item }
-        });
-      }
+  if (!compareToProp) {
+    savedObject = savedCollections[propName].find(item => item === obj);
+  }
 
-      return obj[prop].map(item => {
-        return { [prop]: item };
-      });
+  savedObject = savedCollections[propName].find(item => item[compareToProp] === obj[compareToProp]);
+
+  if (savedObject) {
+    return savedObject;
+  }
+
+  const Model = subDocuments[propName];
+  const objToSave = new Model(obj);
+  savedCollections[propName].push(objToSave);
+
+  return objToSave;
+}
+
+function renameIdKey(obj) {
+  return _(obj).mapKeys((value, key) => {
+    if (key === 'id') {
+      return 'external_id';
     }
 
-    return { [prop]: obj[prop] };
+    return key;
+  }).value();
+}
+
+function getAssociatedModel(collectionName, obj) {
+  let compareToProp = 'name';
+
+  if (_.isArray(obj)) {
+    return _(obj)
+      .map(item => {
+        if (_.isEmpty(item)) {
+          return null
+        }
+
+        let renamedItem = renameIdKey(item);
+
+        let savedItem = getObject(collectionName, renamedItem, compareToProp);
+
+        return savedItem;
+      })
+      .value();
   }
 
-  return { [prop]: null };
-}
-
-function getPersistedObject(Model, propName, obj) {
-  let saved = savedItems[propName].find(item => item.name === obj.name);
-
-  if (saved) {
-    return saved;
-  }
-
-  const objToPersist = new Model(obj);
-  savedItems[propName].push(objToPersist);
-
-  return objToPersist;
-}
-
-function persistObject(Model, name, obj) {
-  let item = {
-    name: obj.$t,
-    external_id: obj.id
-  };
-
-  let savedItem = getPersistedObject(Model, name, item);
-
-  return savedItem;
-}
-
-function getDirectProps(obj) {
-  return directProps.map(prop => filterValue(obj, prop));
-}
-
-function getAssociatedSchema(name, obj) {
-  return filterValue(obj, name);
-}
-
-function getAssociatedModel(name, obj, type = 'single') {
-  if (type === 'single') {
-    return persistObject(singleSubDocuments[name], name, obj[name]);
-  }
-
-  if (!obj[name]) {
+  if (_.isEmpty(obj)) {
     return null;
   }
 
-  return _(obj[name])
-    .map(item => {
-      if (item) {
-        return persistObject(multipleSubDocuments[name], name, item);
-      }
+  let renamedItem = renameIdKey(obj);
 
-      return null;
-    })
-    .value();
+  if (collectionName === 'contact') {
+    compareToProp = 'email';
+  }
+
+  return getObject(collectionName, renamedItem, compareToProp);
 }
 
-function getCarObject(car) {
-  const carProps = getDirectProps(car);
+function getCarsObject(cars) {
+  return _(cars).map(car => {
+    const version = getAssociatedModel('version', car.version);
+    const make = getAssociatedModel('make', car.make);
+    const model = getAssociatedModel('model', car.model);
+    const transmission = getAssociatedModel('transmission', car.transmission);
+    const color = getAssociatedModel('color', car.color);
+    const fuel = getAssociatedModel('fuel', car.fuel);
 
-  const version = getAssociatedModel('version', car);
-  const make = getAssociatedModel('make', car);
-  const model = getAssociatedModel('model', car);
-  const transmission = getAssociatedModel('transmission', car);
-  const color = getAssociatedModel('color', car);
-  const fuel = getAssociatedModel('fuel', car);
+    const packages = getAssociatedModel('packages', car.packages);
+    const features = getAssociatedModel('features', car.features);
+    const acessories = getAssociatedModel('acessories', car.acessories);
 
-  const packages = getAssociatedModel('packages', car, 'multiple');
-  const features = getAssociatedModel('features', car, 'multiple');
-  const acessories = getAssociatedModel('acessories', car, 'multiple');
+    let store;
+    let contact;
+    if (car.store) {
+      store = getAssociatedModel('store', car.store);
+      if (car.store.contact) {
+        contact = getAssociatedModel('contact', car.store.contact);
+      }
+    }
 
-  const photos = getAssociatedSchema('photos', car);
+    let photos = {};
+    if (car.photos.length > 1) {
+      photos = car.photos.map(item => {
+        return { url: item };
+      });
+    }
 
-  const newCar = new carModel({
-    version,
-    make,
-    model,
-    transmission,
-    color,
-    fuel,
-    packages,
-    features,
-    acessories,
-    photos,
-  });
+    let newCar = {
+      ...car,
+      version,
+      make,
+      model,
+      transmission,
+      color,
+      fuel,
+      packages,
+      features,
+      acessories,
+      photos,
+      store,
+      contact
+    };
 
-  return Object.assign(newCar, ...carProps);
+    return new carModel(newCar);
+  })
+  .value();
 }
 
 export default function importCollections() {
@@ -168,8 +160,12 @@ export default function importCollections() {
     return false;
   }
 
-  return carsJson.map((car) => {
-    return getCarObject(car);
-  });
+  return Promise.resolve(getCarsObject(carsJson))
+    .then(response => {
+      return {
+        cars: response,
+        ...savedCollections
+      }
+    })
 }
 

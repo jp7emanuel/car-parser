@@ -8,7 +8,18 @@ import moment from 'moment';
 import 'moment/locale/pt-br';
 
 const options = {
-  object: true
+  object: true,
+  alternateTextNode: "name"
+}
+
+
+function replaceKeysDeep(obj, keysMap) {
+  return _.transform(obj, function(result, value, key) {
+
+    var currentKey = keysMap[key] || key;
+
+    result[currentKey] = _.isObject(value) ? replaceKeysDeep(value, keysMap) : value;
+  });
 }
 
 function restructureNestedKeys(obj) {
@@ -32,30 +43,21 @@ function restructureNestedKeys(obj) {
 }
 
 function remapObj(obj) {
-  return _(obj)
-    .mapKeys(function (value, prop) {
-      let attrFromConfig = config.carAttrs.find(attr => attr.value === prop);
+  let newObj = replaceKeysDeep(obj, config.carAttrs);
 
-      if (attrFromConfig) {
-        return attrFromConfig.key;
-      }
+  return _.mapValues(newObj, function (value, prop) {
+    if (prop === 'zerokm') {
+      return value === 'N';
+    }
+    if (prop === 'price') {
+      return value.replace(/\D/g, '');
+    }
+    if (prop === 'created_at' || prop === 'updated_at') {
+      return moment(value, 'DD/MM/YYYY HH:mm').format();
+    }
 
-      return prop;
-    })
-    .mapValues(function (value, prop) {
-      if (prop === 'zerokm') {
-        return value === 'N';
-      }
-      if (prop === 'price') {
-        return value.replace(/\D/g, '');
-      }
-      if (prop === 'created_at' || prop === 'updated_at') {
-        return moment(value, 'DD/MM/YYYY HH:mm').format();
-      }
-
-      return value;
-    })
-    .value();
+    return value;
+  });
 }
 
 function restructure(obj) {

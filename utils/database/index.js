@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import config from './config';
 
+mongoose.Promise = Promise;
+
 const MONGO_URL = process.env.MONGODB_URI || config.localUri;
 
 mongoose.connect(MONGO_URL);
