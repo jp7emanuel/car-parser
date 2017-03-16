@@ -1,5 +1,5 @@
 import parseToJsonFile from '../utils/parser';
-import importCollections from '../utils/import';
+import collectionsToBeImported from '../utils/import';
 import carModel from '../models/car_model';
 import versionModel from '../models/version_model';
 import modelModel from '../models/model_model';
@@ -29,12 +29,25 @@ const documents = {
   acessories: acessoryModel
 }
 
-function onInsert(err, docs) {
-    if (err) {
-        // TODO: handle error
-    } else {
-        console.log('were successfully stored.');
-    }
+/**
+* @description Persist a Model
+* @param {Array} [cars] Array of cars from Json object
+* @return {Array} Cars we should persist to database
+*/
+function persistToDatabase(Model, collection, name) {
+  Model.remove({}, (err) => {
+    console.log(`${name} removed!`);
+  })
+  .then(response => {
+      Model.insertMany(collection, function (err, docs) {
+      if (err) {
+        console.log(`Error! Could not insert ${name}!`);
+        return err;
+      }
+
+      console.log(`${name} inserted successfully!`);
+    });
+  });
 }
 
 export const generateJsonRoute = (req, res, next) => {
@@ -42,8 +55,12 @@ export const generateJsonRoute = (req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
   return Promise.resolve(parseToJsonFile())
-    .then(path => {
-      return res.status(200).json({ message: `json file generated at: ${path}` });
+    .then(response => {
+      if (!response) {
+        return res.status(400).json({ error: 'XML has wrong structure!' })
+      }
+
+      return res.status(200).json({ message: `JSON file generated!` });
     }, function(err) {
       return res.status(500);
     });
@@ -53,25 +70,14 @@ export const importToDbRoute = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 
-  return Promise.resolve(importCollections())
+  return Promise.resolve(collectionsToBeImported())
     .then(response => {
-      let messages = [];
+      if (!response) {
+        return res.status(400).send({ error: 'No cars found to be imported!' });
+      }
+
       _.map(response, (collection, name) => {
-        const Model = documents[name];
-
-        Model.remove({}, (err) => {
-          console.log(`${name} removed!`);
-        })
-        .then(response => {
-            Model.insertMany(collection, function (err, docs) {
-            if (err) {
-              console.log(`Error! Could not insert ${name}!`);
-              return err;
-            }
-
-            console.log(`${name} inserted successfully!`);
-          });
-        });
+        persistToDatabase(documents[name], collection, name);
       });
 
       return res.status(200).json({ message: 'Database imported!' });

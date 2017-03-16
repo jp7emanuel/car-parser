@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
-import carsJson from '../../generated/parsed_xml.json';
 import carModel from '../../models/car_model';
 import versionModel from '../../models/version_model';
 import modelModel from '../../models/model_model';
@@ -43,6 +42,13 @@ const savedCollections = {
   acessories: [],
 };
 
+/**
+* @description Applying memoization of already seen objects, so we will only persist uniques
+* @param {String} [propName] Name of property to be saved in {savedCollections}
+* @param {Object} [obj] Object we wish to persist
+* @param {String} [compareToProp] Used to compare property in object checking for uniques
+* @return {Object} Object we wish to be persisted
+*/
 function getObject(propName, obj, compareToProp = null) {
   let savedObject;
 
@@ -63,6 +69,11 @@ function getObject(propName, obj, compareToProp = null) {
   return objToSave;
 }
 
+/**
+* @description Renames the key id to external_id in object
+* @param {Object} [obj] Object to be renamed
+* @return {Object} Mapped object with key renamed
+*/
 function renameIdKey(obj) {
   return _(obj).mapKeys((value, key) => {
     if (key === 'id') {
@@ -73,6 +84,12 @@ function renameIdKey(obj) {
   }).value();
 }
 
+/**
+* @description Retrives a model collection from mongoose associated model
+* @param {String} [collectionName] Name of Object property to be used
+* @param {Object} [obj] Object to be used
+* @return {Object} Car associated model
+*/
 function getAssociatedModel(collectionName, obj) {
   let compareToProp = 'name';
 
@@ -105,67 +122,83 @@ function getAssociatedModel(collectionName, obj) {
   return getObject(collectionName, renamedItem, compareToProp);
 }
 
+/**
+* @description Grab car properties and parse them based on collection properties
+* @param {Array} [cars] Array of cars from Json object
+* @return {Array} Cars we should persist to database
+*/
 function getCarsObject(cars) {
   return _(cars).map(car => {
-    const version = getAssociatedModel('version', car.version);
-    const make = getAssociatedModel('make', car.make);
-    const model = getAssociatedModel('model', car.model);
-    const transmission = getAssociatedModel('transmission', car.transmission);
-    const color = getAssociatedModel('color', car.color);
-    const fuel = getAssociatedModel('fuel', car.fuel);
+      const version = getAssociatedModel('version', car.version);
+      const make = getAssociatedModel('make', car.make);
+      const model = getAssociatedModel('model', car.model);
+      const transmission = getAssociatedModel('transmission', car.transmission);
+      const color = getAssociatedModel('color', car.color);
+      const fuel = getAssociatedModel('fuel', car.fuel);
 
-    const packages = getAssociatedModel('packages', car.packages);
-    const features = getAssociatedModel('features', car.features);
-    const acessories = getAssociatedModel('acessories', car.acessories);
+      const packages = getAssociatedModel('packages', car.packages);
+      const features = getAssociatedModel('features', car.features);
+      const acessories = getAssociatedModel('acessories', car.acessories);
 
-    let store;
-    let contact;
-    if (car.store) {
-      store = getAssociatedModel('store', car.store);
-      if (car.store.contact) {
-        contact = getAssociatedModel('contact', car.store.contact);
+      let store;
+      let contact;
+      if (car.store) {
+        store = getAssociatedModel('store', car.store);
+        if (car.store.contact) {
+          contact = getAssociatedModel('contact', car.store.contact);
+        }
       }
-    }
 
-    let photos = {};
-    if (car.photos.length > 1) {
-      photos = car.photos.map(item => {
-        return { url: item };
-      });
-    }
+      let photos = {};
+      if (car.photos && car.photos.length > 1) {
+        photos = car.photos.map(item => {
+          return { url: item };
+        });
+      }
 
-    let newCar = {
-      ...car,
-      version,
-      make,
-      model,
-      transmission,
-      color,
-      fuel,
-      packages,
-      features,
-      acessories,
-      photos,
-      store,
-      contact
-    };
+      let newCar = {
+        ...car,
+        version,
+        make,
+        model,
+        transmission,
+        color,
+        fuel,
+        packages,
+        features,
+        acessories,
+        photos,
+        store,
+        contact
+      };
 
-    return new carModel(newCar);
-  })
-  .value();
+      return new carModel(newCar);
+    })
+    .value();
 }
 
-export default function importCollections() {
-  if (!carsJson || carsJson.length < 1) {
+/**
+* @description Get the collections we have to persist to database
+* @return {Object} Collection to be persisted
+*/
+export default function collectionsToBeImported() {
+  const filePath = path.join(__dirname, '../../generated', 'parsed_xml.json');
+
+  if (!fs.existsSync(filePath)) {
+    console.log(`No file found at ${filePath}!`);
     return false;
   }
+
+  const fileData = fs.readFileSync(filePath);
+  const carsJson = JSON.parse(fileData);
 
   return Promise.resolve(getCarsObject(carsJson))
     .then(response => {
       return {
         cars: response,
         ...savedCollections
-      }
-    })
+      };
+    });
+
 }
 

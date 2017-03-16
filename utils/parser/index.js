@@ -12,7 +12,12 @@ const options = {
   alternateTextNode: "name"
 }
 
-
+/**
+* @description Replace deep keys helper
+* @param {Object} [obj] Object to be remapped
+* @param {Object} [keysMap] Keys and values we wish to remap
+* @return {Object} Transformed object
+*/
 function replaceKeysDeep(obj, keysMap) {
   return _.transform(obj, function(result, value, key) {
 
@@ -22,26 +27,36 @@ function replaceKeysDeep(obj, keysMap) {
   });
 }
 
+/**
+* @description Objects have a poor structure when come from the XML, so we have to simplify them
+* @param {Object} [obj] Object to be restructured
+* @return {Object} Restructured object
+*/
 function restructureNestedKeys(obj) {
-  if (obj.features.opcional) {
-    obj.features = obj.features.opcional;
+  if (obj.opcionais.opcional) {
+    obj.opcionais = obj.opcionais.opcional;
   }
 
-  if (obj.photos.foto) {
-    obj.photos = obj.photos.foto;
+  if (obj.fotos.foto) {
+    obj.fotos = obj.fotos.foto;
   }
 
-  if (obj.packages.complemento) {
-    obj.packages = obj.packages.complemento;
+  if (obj.complementos.complemento) {
+    obj.complementos = obj.complementos.complemento;
   }
 
-  if (obj.acessories.acessorio) {
-    obj.acessories = obj.acessories.acessorio;
+  if (obj.acessorios.acessorio) {
+    obj.acessorios = obj.acessorios.acessorio;
   }
 
   return obj;
 }
 
+/**
+* @description Remaps object applying new keys from config.Attrs and remapping objects of interest
+* @param {Object} [obj] Object to be remapped
+* @return {Object} Remapped object
+*/
 function remapObj(obj) {
   let newObj = replaceKeysDeep(obj, config.carAttrs);
 
@@ -60,25 +75,43 @@ function remapObj(obj) {
   });
 }
 
+/**
+* @description Restructure the entire object replacing some nested keys to deeper objects and remap applying translated keys
+* @param {Object} [obj] Object to be remapped
+* @return {Object} Restructured object
+*/
 function restructure(obj) {
   return obj.map(car => {
-    let remappedCar = remapObj(car);
-    return restructureNestedKeys(remappedCar);
+    let restructuredCar = restructureNestedKeys(car);
+    return remapObj(restructuredCar);
   })
 }
 
-function parseToJsonFile() {
+/**
+* @description Parses a XML file, restructuring properties and saving to a JSON file
+*/
+export default function parseToJsonFile() {
   return axios.get(config.url)
   .then(response => {
     const filePath = path.join(__dirname, '../../generated', 'parsed_xml.json');
     const converted = parser.toJson(response.data, options);
 
+    if (!converted.estoque) {
+      return false;
+    }
+
+    if (!converted.estoque.veiculo) {
+      return false;
+    }
+
     const parsedFile = restructure(converted.estoque.veiculo);
+
+    if (!parsedFile || !parsedFile.length) {
+      return false;
+    }
 
     fs.writeFileSync(filePath, JSON.stringify(parsedFile, null, 2));
 
-    return filePath;
+    return true;
   });
 }
-
-export default parseToJsonFile;
