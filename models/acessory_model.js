@@ -8,4 +8,6 @@ const acessorySchema = new mongoose.Schema({
   }
 });
 
+acessorySchema.index({ name: 'text' });
+
 export default mongoose.model('acessory', acessorySchema);

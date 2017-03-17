@@ -8,4 +8,6 @@ const fuelSchema = new mongoose.Schema({
   }
 });
 
+fuelSchema.index({ name: 'text' });
+
 export default mongoose.model('fuel', fuelSchema);

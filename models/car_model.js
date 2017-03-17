@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 import photoSchema from '../schemas/photo_schema';
 
 const carSchema = new mongoose.Schema({
-  external_id: Number,
+  external_id: {
+    type: Number,
+    required: true
+  },
   zerokm: Boolean,
   plate: String,
   manufacturing_year: Number,
@@ -38,14 +41,10 @@ const carSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'fuel',
   },
-  store: {
+  stores: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'store',
-  },
-  contact: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'contact',
-  },
+  }],
   packages: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'package',

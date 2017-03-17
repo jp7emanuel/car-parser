@@ -4,8 +4,11 @@ const versionSchema = new mongoose.Schema({
   external_id: Number,
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   }
 });
+
+versionSchema.index({ name: 'text' });
 
 export default mongoose.model('version', versionSchema);

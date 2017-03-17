@@ -8,4 +8,6 @@ const colorSchema = new mongoose.Schema({
   }
 });
 
+colorSchema.index({ name: 'text' });
+
 export default mongoose.model('color', colorSchema);

@@ -8,4 +8,6 @@ const packageSchema = new mongoose.Schema({
   }
 });
 
+packageSchema.index({ name: 'text' });
+
 export default mongoose.model('package', packageSchema);

@@ -8,4 +8,6 @@ const transmissionSchema = new mongoose.Schema({
   }
 });
 
+transmissionSchema.index({ name: 'text' });
+
 export default mongoose.model('transmission', transmissionSchema);

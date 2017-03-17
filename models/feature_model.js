@@ -8,4 +8,6 @@ const featureSchema = new mongoose.Schema({
   }
 });
 
+featureSchema.index({ name: 'text' });
+
 export default mongoose.model('feature', featureSchema);
