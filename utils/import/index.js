@@ -40,18 +40,15 @@ function outputMessage(code, message) {
 */
 function dropCollections() {
   return _(documents).map((Model, collectionName) => {
-      return Model.remove()
-        .then(response => {
-          console.log(`- ${collectionName} removed successfully!`)
-          return true;
-        })
-        .catch(err => {
-          const errorMessage = `- [Error] Could not remove ${collectionName}`;
-          console.error(errorMessage);
-          return outputMessage(400, errorMessage);
-        });
+    return Model.remove()
+      .then(response => console.info(`- ${collectionName} removed!`))
+      .catch(err => {
+        const errorMessage = `- [Error] Could not remove ${collectionName}`;
+        console.error(errorMessage);
+        return outputMessage(400, errorMessage);
+      });
     })
-  .value();
+    .value();
 }
 
 /**
@@ -64,10 +61,7 @@ function persistCollections(collections) {
     .map((collection, name) => {
       let Model = documents[name];
       return Model.insertMany(collection)
-        .then(response => {
-          console.log(`+ ${name} inserted successfully!`);
-          return true;
-        })
+        .then(response => console.info(`+ ${name} inserted!`))
         .catch(err => {
           const errorMessage = `+ [Error] Could not insert ${name}`;
           console.error(errorMessage);
@@ -80,16 +74,15 @@ function persistCollections(collections) {
 export default function handleImport() {
   return parseToJson()
     .then(parseResponse => {
+
       if (!parseResponse) {
         return outputMessage(400, "XML has wrong structure!");
       }
-
       return collectionsToBeImported(parseResponse)
         .then(importResponse => {
           if (!importResponse) {
             return outputMessage(400, "No cars found to be imported!");
           }
-
           return Promise.all(dropCollections())
             .then(dropResponse => {
               return Promise.all(persistCollections(importResponse))
@@ -97,16 +90,15 @@ export default function handleImport() {
                 .catch(persistError => persistError);
             })
             .catch(dropError => dropError);
-
         })
         .catch((importError) => {
-          console.log(importError);
+          console.error(importError);
           return outputMessage(500, "Import Collection Promise rejected!");
         });
 
     })
     .catch(parseError => {
-      console.log(parseError);
+      console.error(parseError);
       return outputMessage(500, "Parse JSON from XML Promise rejected!");
     });
 }

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from '../utils/database/mongoose';
 import addressSchema from '../schemas/address_schema';
 import contactSchema from '../schemas/contact_schema';
 

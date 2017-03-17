@@ -79,7 +79,6 @@ function isStoredCar(car) {
   if (car.stores) {
     store = getAssociatedModel('stores', car.stores);
     storedCar.stores.push(store);
-    console.log(storedCar);
   }
 
   return true;

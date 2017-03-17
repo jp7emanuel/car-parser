@@ -1,6 +1,10 @@
 import handleImport from '../utils/import';
-import mongoose from 'mongoose';
+import db from '../utils/database';
+import mongoose from '../utils/database/mongoose';
 
-mongoose.Promise = Promise;
-
-handleImport().then(response => console.log(response.message));
+handleImport()
+  .then(response => {
+    mongoose.connection.close();
+    console.info(response.message);
+  })
+  .catch(err => err);

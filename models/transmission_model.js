@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from '../utils/database/mongoose';
 
 const transmissionSchema = new mongoose.Schema({
   external_id: Number,

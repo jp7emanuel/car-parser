@@ -1,11 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose from './mongoose';
 import config from './config';
-
-mongoose.Promise = Promise;
 
 const MONGO_URL = process.env.MONGODB_URI || config.localUri;
 
-mongoose.connect(MONGO_URL);
+mongoose.connect(MONGO_URL, config.options);
 
 mongoose.connection.on('connected', function () {
     console.log('Mongoose default connection open to ' + MONGO_URL);

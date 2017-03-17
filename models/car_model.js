@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from '../utils/database/mongoose';
 import photoSchema from '../schemas/photo_schema';
 
 const carSchema = new mongoose.Schema({
