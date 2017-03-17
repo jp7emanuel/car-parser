@@ -88,30 +88,22 @@ function restructure(obj) {
 }
 
 /**
-* @description Parses a XML file, restructuring properties and saving to a JSON file
+* @description Parses a XML files from links restructuring its properties
+* @return {Object} Collection of parsed cars
 */
-export default function parseToJsonFile() {
-  return axios.get(config.url)
-  .then(response => {
-    const filePath = path.join(__dirname, '../../generated', 'parsed_xml.json');
-    const converted = parser.toJson(response.data, options);
+export default function parseToJson() {
+  const promiseArray = config.urls.map(url => axios.get(url));
+  return axios.all(promiseArray)
+    .then(function(results) {
+      return _.flatMap(results, response => {
+          let converted = parser.toJson(response.data, options);
+          if (!converted.estoque) return;
+          if (!converted.estoque.veiculo) return;
+          let restructuredCollection = restructure(converted.estoque.veiculo);
+          if (!restructuredCollection || !restructuredCollection.length) return;
 
-    if (!converted.estoque) {
-      return false;
-    }
+          return restructuredCollection;
+        });
+    });
 
-    if (!converted.estoque.veiculo) {
-      return false;
-    }
-
-    const parsedFile = restructure(converted.estoque.veiculo);
-
-    if (!parsedFile || !parsedFile.length) {
-      return false;
-    }
-
-    fs.writeFileSync(filePath, JSON.stringify(parsedFile, null, 2));
-
-    return true;
-  });
 }
