@@ -92,12 +92,12 @@ function isStoredCar(car) {
 */
 function getAssociatedModel(collectionName, obj) {
   if (_.isArray(obj)) {
+    if (_.isEmpty(obj)) {
+      return [];
+    }
+
     return _(obj)
       .map(item => {
-        if (_.isEmpty(item)) {
-          return null
-        }
-
         let savedItem = getObject(collectionName, item);
 
         return savedItem;
@@ -106,7 +106,7 @@ function getAssociatedModel(collectionName, obj) {
   }
 
   if (_.isEmpty(obj)) {
-    return null;
+    return {};
   }
 
   return getObject(collectionName, obj);
