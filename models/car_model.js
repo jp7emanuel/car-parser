@@ -6,7 +6,7 @@ const carSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  zerokm: Boolean,
+  new: Boolean,
   plate: String,
   manufacturing_year: Number,
   model_year: Number,

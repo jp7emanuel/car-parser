@@ -46,10 +46,11 @@ export default {
   ],
   carAttrs: {
     'id': 'external_id',
+
     // VEICULOS
     veiculo: 'cars',
     tipoveiculo: 'type',
-    zerokm: 'zerokm',
+    zerokm: 'new',
     placa: 'plate',
     marca: 'make',
     modelo: 'model',

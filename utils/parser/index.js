@@ -61,7 +61,7 @@ function remapObj(obj) {
   let newObj = replaceKeysDeep(obj, config.carAttrs);
 
   return _.mapValues(newObj, function (value, prop) {
-    if (prop === 'zerokm') {
+    if (prop === 'new') {
       return value === 'N';
     }
     if (prop === 'price') {
