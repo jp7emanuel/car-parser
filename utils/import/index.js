@@ -1,5 +1,5 @@
-import parseToJson from '../parser';
-import collectionsToBeImported from './handler';
+import { parseToJson } from '../parser';
+import getCollectionsToImport from './handler';
 import carModel from '../../models/car_model';
 import versionModel from '../../models/version_model';
 import modelModel from '../../models/model_model';
@@ -74,15 +74,16 @@ function persistCollections(collections) {
 export default function handleImport() {
   return parseToJson()
     .then(parseResponse => {
-
       if (!parseResponse) {
         return outputMessage(400, "XML has wrong structure!");
       }
-      return collectionsToBeImported(parseResponse)
+
+      return getCollectionsToImport(parseResponse)
         .then(importResponse => {
           if (!importResponse) {
             return outputMessage(400, "No cars found to be imported!");
           }
+
           return Promise.all(dropCollections())
             .then(dropResponse => {
               return Promise.all(persistCollections(importResponse))

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<estoque>
+  <veiculo>
+    <id>693987</id>
+    <tipoveiculo>Carro</tipoveiculo>
+    <zerokm>N</zerokm>
+    <placa>EQT-0355</placa>
+    <marca id="8">AUDI</marca>
+    <modelo id="36"><![CDATA[ A4 ]]></modelo>
+    <versao id="177"><![CDATA[ 2.0 TFSI Ambiente Sedan 183 CV Turbo ]]></versao>
+    <tipomotor>
+    </tipomotor>
+    <anofabricacao>2010</anofabricacao>
+    <anomodelo>2011</anomodelo>
+    <cambio id="1">Automático</cambio>
+    <km>95332</km>
+    <portas>4</portas>
+    <cor id="6">Cinza</cor>
+    <combustivel id="6">Gasolina</combustivel>
+    <preco>R$ 58.990,00</preco>
+    <observacao><![CDATA[ Al. Araguaia, 1742 - Alphaville Industrial - Barueri/SP - 06455-000 - (11) 4689-9444
+*SEMINOVOS COM GARANTIA DE 3 MESES: MOTOR E CÂMBIO. Fiat Sinal, uma empresa do Grupo Sinal e concessionária autorizada da Fiat, com 12 lojas em São Paulo, Alphaville, Grande ABC e Belo Horizonte. Traga seu usado para uma avaliação. Consulte nossos Planos de Financiamento, com as melhores taxas do mercado. Reservamos o direito de corrigir eventuais erros de digitação. Aguardamos seu contato! Mais ofertas em www.gruposinal.com.br #Alphaville #Butantã #Giovannigronchi #GranjaViana #Jaçanã #Morumbi #Norte #RudgeRamos #SantoAmaro  #SãoBernardo #Vergueiro #Pampulha ]]></observacao>
+    <cadastro>23/02/2017 13:37</cadastro>
+    <alteracao>24/02/2017 13:00</alteracao>
+    <complementos />
+    <opcionais>
+      <opcional id="54">Air bag</opcional>
+      <opcional id="6">Ar condicionado</opcional>
+      <opcional id="8">Ar quente</opcional>
+      <opcional id="12">Bancos de couro</opcional>
+      <opcional id="15">Computador de bordo</opcional>
+      <opcional id="18">Desembaçador traseiro</opcional>
+      <opcional id="20">Direção hidráulica</opcional>
+      <opcional id="23">Freios ABS</opcional>
+      <opcional id="29">Retrovisores elétricos</opcional>
+      <opcional id="30">Rodas de liga leve</opcional>
+      <opcional id="33">Teto solar</opcional>
+      <opcional id="36">Travas elétricas</opcional>
+      <opcional id="38">Vidros elétricos</opcional>
+    </opcionais>
+    <acessorios />
+    <fotos>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_01.jpg?u=20170224125954</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_02.jpg?u=20170224125957</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_03.jpg?u=20170224130000</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_04.jpg?u=20170224130004</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_05.jpg?u=20170224130007</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_06.jpg?u=20170224130011</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_07.jpg?u=20170224130014</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_08.jpg?u=20170224130017</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_09.jpg?u=20170224130021</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_10.jpg?u=20170224130024</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_11.jpg?u=20170224130027</foto>
+      <foto>http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_12.jpg?u=20170224130028</foto>
+    </fotos>
+    <foto360>
+      <exterior>
+      </exterior>
+      <interior>
+      </interior>
+    </foto360>
+    <loja>
+      <id>418</id>
+      <nomefantasia>Fiat Sinal (Alphaville)</nomefantasia>
+      <cnpj>00.434.116/0012-91</cnpj>
+      <endereco>
+        <logradouro>Al. Araguaia</logradouro>
+        <numero>1742</numero>
+        <complemento>
+        </complemento>
+        <bairro>Alphaville Industrial</bairro>
+        <cidade>Barueri</cidade>
+        <uf>SP</uf>
+        <cep>06455-000</cep>
+      </endereco>
+      <contato>
+        <nome>Regis Padeti - Marcio Silva</nome>
+        <email>fiatalphaville.lead@gruposinal.com</email>
+        <telefone>(11) 4689-9444</telefone>
+        <fax>
+        </fax>
+        <nextel>
+        </nextel>
+        <site>http://fiat-sp.gruposinal.com.br/</site>
+      </contato>
+    </loja>
+  </veiculo>
+</estoque>

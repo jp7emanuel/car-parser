@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
 import carModel from '../../models/car_model';
 import versionModel from '../../models/version_model';
@@ -27,7 +25,7 @@ const documents = {
   acessories: acessoryModel
 }
 
-let savedCollections = {
+let collectionsToImport = {
   cars: [],
   version: [],
   model: [],
@@ -43,13 +41,13 @@ let savedCollections = {
 
 /**
 * @description Applying memoization of already seen objects, so we will only persist uniques
-* @param {String} [propName] Name of property to be saved in {savedCollections}
+* @param {String} [propName] Name of property to be saved in {collectionsToImport}
 * @param {Object} [obj] Object we wish to persist
 * @param {String} [compareToProp] Used to compare property in object checking for uniques
 * @return {Object} Object we wish to be persisted
 */
 function getObject(propName, obj, compareToProp = null) {
-  let savedObject = savedCollections[propName].find(item => item.external_id === obj.external_id);
+  let savedObject = collectionsToImport[propName].find(item => item.external_id === obj.external_id);
 
   if (savedObject) {
     return savedObject;
@@ -57,7 +55,7 @@ function getObject(propName, obj, compareToProp = null) {
 
   const Model = documents[propName];
   const objToSave = new Model(obj);
-  savedCollections[propName].push(objToSave);
+  collectionsToImport[propName].push(objToSave);
 
   return objToSave;
 }
@@ -68,7 +66,7 @@ function getObject(propName, obj, compareToProp = null) {
 * @return {Boolean} Car was previously stored in savedCollection or not
 */
 function isStoredCar(car) {
-  let storedCar = savedCollections.cars.find(item => item.plate === car.plate);
+  let storedCar = collectionsToImport.cars.find(item => item.plate === car.plate);
 
   if (!storedCar) {
     return false;
@@ -113,11 +111,11 @@ function getAssociatedModel(collectionName, obj) {
 }
 
 /**
-* @description Grab car properties and parse them based on collection properties
+* @description Grab car properties and parse them separating collections
 * @param {Array} [cars] Array of cars from Json object
 * @return {Array} Cars we should persist to database
 */
-function getCarsObject(cars) {
+function getCollections(cars) {
   for(let i=0; i < cars.length; i++) {
     let car = cars[i];
 
@@ -165,17 +163,25 @@ function getCarsObject(cars) {
     };
 
     const databaseCar = new carModel(newCar);
-    savedCollections.cars.push(databaseCar);
+    collectionsToImport.cars.push(databaseCar);
   }
 
-  return savedCollections;
+  return collectionsToImport;
 }
 
 /**
 * @description Get the collections we have to persist to database
 * @return {Object} Collection to be persisted
 */
-export default function collectionsToBeImported(cars) {
-  return Promise.resolve(getCarsObject(cars)).then(response => response);
+export default function getCollectionsToImport(cars) {
+  return new Promise((resolve, reject) => {
+    const toImportCollections = getCollections(cars);
+
+    if (!toImportCollections) {
+      reject();
+    }
+
+    resolve(toImportCollections);
+  })
 }
 

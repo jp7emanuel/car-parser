@@ -1,0 +1,254 @@
+{
+    "acessories": [],
+    "cars": [
+        {
+            "acessories": [],
+            "color": {
+                "external_id": 6,
+                "name": "Cinza"
+            },
+            "created_at": "2017-02-23T16:37:00.000Z",
+            "doors": 4,
+            "external_id": 693987,
+            "extra": "Al. Araguaia, 1742 - Alphaville Industrial - Barueri/SP - 06455-000 - (11) 4689-9444\n*SEMINOVOS COM GARANTIA DE 3 MESES: MOTOR E CÂMBIO. Fiat Sinal, uma empresa do Grupo Sinal e concessionária autorizada da Fiat, com 12 lojas em São Paulo, Alphaville, Grande ABC e Belo Horizonte. Traga seu usado para uma avaliação. Consulte nossos Planos de Financiamento, com as melhores taxas do mercado. Reservamos o direito de corrigir eventuais erros de digitação. Aguardamos seu contato! Mais ofertas em www.gruposinal.com.br #Alphaville #Butantã #Giovannigronchi #GranjaViana #Jaçanã #Morumbi #Norte #RudgeRamos #SantoAmaro  #SãoBernardo #Vergueiro #Pampulha",
+            "features": [
+                {
+                    "external_id": 54,
+                    "name": "Air bag"
+                },
+                {
+                    "external_id": 6,
+                    "name": "Ar condicionado"
+                },
+                {
+                    "external_id": 8,
+                    "name": "Ar quente"
+                },
+                {
+                    "external_id": 12,
+                    "name": "Bancos de couro"
+                },
+                {
+                    "external_id": 15,
+                    "name": "Computador de bordo"
+                },
+                {
+                    "external_id": 18,
+                    "name": "Desembaçador traseiro"
+                },
+                {
+                    "external_id": 20,
+                    "name": "Direção hidráulica"
+                },
+                {
+                    "external_id": 23,
+                    "name": "Freios ABS"
+                },
+                {
+                    "external_id": 29,
+                    "name": "Retrovisores elétricos"
+                },
+                {
+                    "external_id": 30,
+                    "name": "Rodas de liga leve"
+                },
+                {
+                    "external_id": 33,
+                    "name": "Teto solar"
+                },
+                {
+                    "external_id": 36,
+                    "name": "Travas elétricas"
+                },
+                {
+                    "external_id": 38,
+                    "name": "Vidros elétricos"
+                }
+            ],
+            "fuel": {
+                "external_id": 6,
+                "name": "Gasolina"
+            },
+            "km": 95332,
+            "make": {
+                "external_id": 8,
+                "name": "AUDI"
+            },
+            "manufacturing_year": 2010,
+            "model": {
+                "external_id": 36,
+                "name": "A4"
+            },
+            "model_year": 2011,
+            "new": true,
+            "packages": [],
+            "photos": [
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_01.jpg?u=20170224125954"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_02.jpg?u=20170224125957"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_03.jpg?u=20170224130000"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_04.jpg?u=20170224130004"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_05.jpg?u=20170224130007"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_06.jpg?u=20170224130011"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_07.jpg?u=20170224130014"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_08.jpg?u=20170224130017"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_09.jpg?u=20170224130021"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_10.jpg?u=20170224130024"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_11.jpg?u=20170224130027"
+                },
+                {
+                    "url": "http://img.dsautoestoque.com/00434116001291/fotos/EQT-0355_12.jpg?u=20170224130028"
+                }
+            ],
+            "plate": "EQT-0355",
+            "price": 5899000,
+            "stores": [
+                "58d027f3a137312567c012d7"
+            ],
+            "transmission": {
+                "external_id": 1,
+                "name": "Automático"
+            },
+            "updated_at": "2017-02-24T16:00:00.000Z",
+            "version": {
+                "external_id": 177,
+                "name": "2.0 TFSI Ambiente Sedan 183 CV Turbo"
+            }
+        }
+    ],
+    "color": [
+        {
+            "external_id": 6,
+            "name": "Cinza"
+        }
+    ],
+    "features": [
+        {
+            "external_id": 54,
+            "name": "Air bag"
+        },
+        {
+            "external_id": 6,
+            "name": "Ar condicionado"
+        },
+        {
+            "external_id": 8,
+            "name": "Ar quente"
+        },
+        {
+            "external_id": 12,
+            "name": "Bancos de couro"
+        },
+        {
+            "external_id": 15,
+            "name": "Computador de bordo"
+        },
+        {
+            "external_id": 18,
+            "name": "Desembaçador traseiro"
+        },
+        {
+            "external_id": 20,
+            "name": "Direção hidráulica"
+        },
+        {
+            "external_id": 23,
+            "name": "Freios ABS"
+        },
+        {
+            "external_id": 29,
+            "name": "Retrovisores elétricos"
+        },
+        {
+            "external_id": 30,
+            "name": "Rodas de liga leve"
+        },
+        {
+            "external_id": 33,
+            "name": "Teto solar"
+        },
+        {
+            "external_id": 36,
+            "name": "Travas elétricas"
+        },
+        {
+            "external_id": 38,
+            "name": "Vidros elétricos"
+        }
+    ],
+    "fuel": [
+        {
+            "external_id": 6,
+            "name": "Gasolina"
+        }
+    ],
+    "make": [
+        {
+            "external_id": 8,
+            "name": "AUDI"
+        }
+    ],
+    "model": [
+        {
+            "external_id": 36,
+            "name": "A4"
+        }
+    ],
+    "packages": [],
+    "stores": [
+        {
+            "address": {
+                "city": "Barueri",
+                "complement": "",
+                "district": "Alphaville Industrial",
+                "number": 1742,
+                "state": "SP",
+                "street": "Al. Araguaia",
+                "zipcode": "06455-000"
+            },
+            "cnpj": "00.434.116/0012-91",
+            "contact": {
+                "email": "fiatalphaville.lead@gruposinal.com",
+                "fax": "",
+                "name": "Regis Padeti - Marcio Silva",
+                "nextel": "",
+                "telephone": "(11) 4689-9444",
+                "website": "http://fiat-sp.gruposinal.com.br/"
+            },
+            "external_id": 418,
+            "name": "Fiat Sinal (Alphaville)"
+        }
+    ],
+    "transmission": [
+        {
+            "external_id": 1,
+            "name": "Automático"
+        }
+    ],
+    "version": [
+        {
+            "external_id": 177,
+            "name": "2.0 TFSI Ambiente Sedan 183 CV Turbo"
+        }
+    ]
+}
