@@ -8,11 +8,26 @@ const carSchema = new mongoose.Schema({
   },
   new: Boolean,
   plate: String,
-  manufacturing_year: Number,
-  model_year: Number,
-  km: Number,
-  doors: Number,
-  price: Number,
+  manufacturing_year: {
+    type: Number,
+    index: true
+  },
+  model_year: {
+    type: Number,
+    index: true
+  },
+  km: {
+    type: Number,
+    index: true
+  },
+  doors: {
+    type: Number,
+    index: true
+  },
+  price: {
+    type: Number,
+    index: true
+  },
   extra: String,
   created_at: Date,
   updated_at: Date,
@@ -58,11 +73,5 @@ const carSchema = new mongoose.Schema({
     ref: 'acessory',
   }],
 });
-
-carSchema.path('manufacturing_year').index(true);
-carSchema.path('model_year').index(true);
-carSchema.path('km').index(true);
-carSchema.path('doors').index(true);
-carSchema.path('price').index(true);
 
 export default mongoose.model('car', carSchema);

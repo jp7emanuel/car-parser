@@ -5,10 +5,9 @@ const versionSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    index: true
+    index: true,
+    text: true
   }
 });
-
-versionSchema.index({ name: 'text' });
 
 export default mongoose.model('version', versionSchema);

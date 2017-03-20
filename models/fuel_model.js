@@ -4,10 +4,9 @@ const fuelSchema = new mongoose.Schema({
   external_id: Number,
   name: {
     type: String,
-    required: true
+    required: true,
+    text: true
   }
 });
-
-fuelSchema.index({ name: 'text' });
 
 export default mongoose.model('fuel', fuelSchema);
