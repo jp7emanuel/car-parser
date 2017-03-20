@@ -44,7 +44,7 @@ export default {
     'http://xml.dsautoestoque.com/?l=18320255000601&v=2',
     'http://xml.dsautoestoque.com/?l=18320255000954&v=2',
   ],
-  carAttrs: {
+  keyTranslations: {
     'id': 'external_id',
 
     // VEICULOS

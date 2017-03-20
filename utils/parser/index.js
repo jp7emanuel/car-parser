@@ -58,7 +58,7 @@ function restructureNestedKeys(obj) {
 * @return {Object} Remapped object
 */
 function remapObj(obj) {
-  let newObj = replaceKeysDeep(obj, config.carAttrs);
+  let newObj = replaceKeysDeep(obj, config.keyTranslations);
 
   return _.mapValues(newObj, function (value, prop) {
     if (prop === 'new') {
@@ -97,8 +97,7 @@ export default function parseToJson() {
     .then(function(results) {
       return _.flatMap(results, response => {
           let converted = parser.toJson(response.data, options);
-          if (!converted.estoque) return;
-          if (!converted.estoque.veiculo) return;
+          if (!converted.estoque || !converted.estoque.veiculo) return;
           let restructuredCollection = restructure(converted.estoque.veiculo);
           if (!restructuredCollection || !restructuredCollection.length) return;
 
