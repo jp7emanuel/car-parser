@@ -17,20 +17,28 @@ const options = {
 * @return {Object} Restructured object
 */
 function restructureNestedKeys(obj) {
-  if (obj.opcionais.opcional) {
-    obj.opcionais = obj.opcionais.opcional;
+  if (obj.opcionais) {
+    if (obj.opcionais.opcional) {
+      obj.opcionais = obj.opcionais.opcional;
+    }
   }
 
-  if (obj.fotos.foto) {
-    obj.fotos = obj.fotos.foto;
+  if (obj.fotos) {
+    if (obj.fotos.foto) {
+      obj.fotos = obj.fotos.foto;
+    }
   }
 
-  if (obj.complementos.complemento) {
-    obj.complementos = obj.complementos.complemento;
+  if (obj.complementos) {
+    if (obj.complementos.complemento) {
+      obj.complementos = obj.complementos.complemento;
+    }
   }
 
-  if (obj.acessorios.acessorio) {
-    obj.acessorios = obj.acessorios.acessorio;
+  if (obj.acessorios) {
+    if (obj.acessorios.acessorio) {
+      obj.acessorios = obj.acessorios.acessorio;
+    }
   }
 
   return obj;
@@ -45,14 +53,17 @@ function remapObj(obj) {
   let newObj = replaceKeysDeep(obj, config.keyTranslations);
 
   return _.mapValues(newObj, function (value, prop) {
-    if (prop === 'new') {
-      return value === 'N';
-    }
-    if (prop === 'price') {
-      return value.replace(/\D/g, '');
-    }
-    if (prop === 'created_at' || prop === 'updated_at') {
-      return moment(value, 'DD/MM/YYYY HH:mm').format();
+    switch (prop) {
+      case 'new': {
+        return value === 'N';
+      }
+      case 'price': {
+        return value.replace(/\D/g, '');
+      }
+      case 'created_at':
+      case 'updated_at': {
+        return moment(value, 'DD/MM/YYYY HH:mm').format();
+      }
     }
 
     return value;
